@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         好医生-视频一键到底与自动答题
 // @namespace    https://dev.limkim.xyz/
-// @version      1.1.3
+// @version      1.1.4
 // @description  好医生继续医学教育视频一键看完(含北京市继续医学教育必修课培训), 并且支持考试自动完成
 // @author       limkim
 // @match        *://cme.haoyisheng.com/cme/polyv.jsp*
@@ -13,6 +13,10 @@
 // @match        *://www.cmechina.net/cme/study2.jsp*
 // @match        *://www.cmechina.net/cme/exam.jsp*
 // @match        *://www.cmechina.net/cme/examQuizFail.jsp*
+// @match        *://hb.cmechina.net/cme/polyv.jsp*
+// @match        *://hb.cmechina.net/cme/study2.jsp*
+// @match        *://hb.cmechina.net/cme/exam.jsp*
+// @match        *://hb.cmechina.net/cme/examQuizFail.jsp*
 // @license MIT
 
 // @icon         https://dev.limkim.xyz/favicon.ico

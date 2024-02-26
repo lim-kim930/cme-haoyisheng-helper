@@ -54,7 +54,7 @@
         };
         // 循环多选选项
         const getNextMultipleChoice = str => {
-            const dic = ['ABCDE', 'ABCD', 'ABD', 'ABC', 'AB', 'A'];
+            const dic = ['ABCD', 'ABC', 'ABD', 'ACD', 'BCD', 'AB', 'AC', 'AD', 'BC', 'BD', 'CD'];
             const index = dic.indexOf(str);
             if (index === 5) {
                 alert('全部遍历但未找到正确答案, 请确定是使用脚本按钮开始答题!');

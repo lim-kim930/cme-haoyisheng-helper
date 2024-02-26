@@ -15,12 +15,16 @@
 ## 使用过程中出现问题请[反馈](https://greasyfork.org/zh-CN/scripts/452555-%E5%A5%BD%E5%8C%BB%E7%94%9F-%E8%A7%86%E9%A2%91%E4%B8%80%E9%94%AE%E5%88%B0%E5%BA%95%E4%B8%8E%E8%87%AA%E5%8A%A8%E7%AD%94%E9%A2%98/feedback)，或[提交issue](https://github.com/lim-kim930/cme-haoyisheng-helper/issues)
 
 ## 目前适配：
-* http://cme.haoyisheng.com/cme/polyv.jsp*
-* http://bjsqypx.haoyisheng.com/qypx/bj/polyv.jsp*
-* https://www.cmechina.net/cme/polyv.jsp*
-* https://www.cmechina.net/cme/study2.jsp*
-* http://cme.haoyisheng.com/cme/study2.jsp*
-* http://cme.haoyisheng.com/cme/exam.jsp*
-* http://cme.haoyisheng.com/cme/examQuizFail.jsp*
-* https://www.cmechina.net/cme/exam.jsp*
-* https://www.cmechina.net/cme/examQuizFail.jsp*
++ *://cme.haoyisheng.com/cme/polyv.jsp*
++ *://cme.haoyisheng.com/cme/study2.jsp*
++ *://cme.haoyisheng.com/cme/exam.jsp*
++ *://cme.haoyisheng.com/cme/examQuizFail.jsp*
++ *://bjsqypx.haoyisheng.com/qypx/bj/polyv.jsp*
++ *://www.cmechina.net/cme/polyv.jsp*
++ *://www.cmechina.net/cme/study2.jsp*
++ *://www.cmechina.net/cme/exam.jsp*
++ *://www.cmechina.net/cme/examQuizFail.jsp*
++ *://hb.cmechina.net/cme/polyv.jsp*
++ *://hb.cmechina.net/cme/study2.jsp*
++ *://hb.cmechina.net/cme/exam.jsp*
++ *://hb.cmechina.net/cme/examQuizFail.jsp*

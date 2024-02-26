@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         好医生-视频一键到底与自动答题
 // @namespace    https://dev.limkim.xyz/
-// @version      1.1.5
+// @version      1.1.6
 // @description  好医生继续医学教育视频一键看完(含北京市继续医学教育必修课培训), 并且支持考试自动完成
 // @author       limkim
 // @match        *://cme.haoyisheng.com/cme/polyv.jsp*
@@ -83,14 +83,15 @@
             const answerObject = getAnswerObject();
             answerObject[examId] = nowAnswerList;
             localStorage.setItem('right_answer_obj', JSON.stringify(answerObject));
-            history.go(-1);
+            const back = localStorage.getItem('exam_back_url');
+            localStorage.removeItem('exam_back_url');
+            window.location = back;
         }
         return;
     }
     // 考试页面填写初始答案和正确答案,并提交
     if (window.location.pathname.includes('exam')) {
         const examId = window.location.search.split('course_id=')[1].split('&')[0] + '_' + window.location.search.split('paper_id=')[1].split('&')[0];
-        const answerObject = getAnswerObject();
         const autoSelectAnswer = answerArray => {
             const liList = document.querySelectorAll('.exam_list li');
             for (let i = 0; i < 5; i++) {
@@ -107,6 +108,7 @@
                 }
             }
         };
+        const answerObject = getAnswerObject();
         // 得到正确答案返回后, 直接填写并提交
         if (answerObject[examId]) {
             autoSelectAnswer(answerObject[examId]);
@@ -124,6 +126,7 @@
         examSkipButton.addEventListener('click', () => {
             // 多选全选, 单选选A
             autoSelectAnswer(['ABCDE', 'ABCDE', 'ABCDE', 'ABCDE', 'ABCDE']);
+            localStorage.setItem('exam_back_url', window.location.href);
             document.querySelector('#tjkj').dispatchEvent(new MouseEvent('click'));
         });
 

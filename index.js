@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         好医生-视频一键到底与自动答题
 // @namespace    https://dev.limkim.xyz/
-// @version      1.1.6
-// @description  好医生继续医学教育视频一键看完(含北京市继续医学教育必修课培训), 并且支持考试自动完成
+// @version      1.1.7
+// @description  好医生继续医学教育(含北京市继续医学教育必修课培训)视频倍速与一键看完, 并且支持考试一键自动完成
 // @author       limkim
 // @match        *://cme.haoyisheng.com/cme/polyv.jsp*
 // @match        *://cme.haoyisheng.com/cme/study2.jsp*
@@ -40,7 +40,7 @@
         const answerObject = localStorage.getItem('right_answer_obj') || '{}';
         return JSON.parse(answerObject);
     };
-    const buttonCssText = 'position: absolute;z-index: 99999;top: -40px;right: 0;padding:10px;cursor:pointer;background-color: #3087d9;color: #fff;box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);';
+    const buttonCssText = 'position: absolute;z-index: 99999;top: -50px;right: 0;padding:10px;cursor:pointer;background-color: #3087d9;color: #fff;box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);';
     // 考试结果页面进行遍历, 得到正确答案
     if (window.location.pathname.includes('examQuizFail')) {
         // 获取下一个选项
@@ -139,35 +139,47 @@
     }
     // 视频跳过
     setTimeout(() => {
+        document.querySelector('.main').style.marginTop = '40px';
+        // 仅适用chromium
+        unsafeWindow.clearInterval(1);
+
         const video = document.querySelector('.pv-video') || document.querySelector('video');
         const parent = video.parentElement;
         const videoSkipButton = document.createElement('button');
         const selecterLabel = document.createElement('label');
         const playRateSelecter = document.createElement('select');
+        const playRateCheckbox = document.createElement('input');
         const checkboxContainer = document.createElement('div');
         const videoCheckboxLabel = document.createElement('label');
         const videoCheckbox = document.createElement('input');
         const examCheckboxLabel = document.createElement('label');
         const examCheckbox = document.createElement('input');
 
-        const containerCssText = 'position: absolute;height: 37px;line-height: 37px;top: -40px;right: 130px;';
+        const containerCssText = 'position: absolute;height: 37px;line-height: 37px;top: -50px;right: 140px;';
         const labelCssText = 'vertical-align: middle;margin-right: 5px;line-height: 37px;color: #3087d9;font-size: 15px;';
         const controllerCssText = 'vertical-align: middle;cursor: pointer; margin-right: 5px;';
+
+        checkboxContainer.style.cssText = containerCssText;
+        // 跳过按钮
         videoSkipButton.innerText = '看视频? 拿来吧你!';
         videoSkipButton.style.cssText = buttonCssText;
-        checkboxContainer.style.cssText = containerCssText;
+        // 自动看完
         videoCheckboxLabel.innerText = '自动看完:';
         videoCheckboxLabel.style.cssText = labelCssText;
         videoCheckbox.type = 'checkbox';
         videoCheckbox.style.cssText = controllerCssText;
+        // 自动开考
         examCheckboxLabel.innerText = '进入考试后自动开考:';
         examCheckboxLabel.style.cssText = labelCssText;
         examCheckbox.type = 'checkbox';
         examCheckbox.style.cssText = controllerCssText;
+        // 倍速
         selecterLabel.innerText = '倍速:';
         selecterLabel.style.cssText = labelCssText;
         playRateSelecter.style.cssText = controllerCssText;
         playRateSelecter.style.border = '1px solid #000';
+        playRateCheckbox.type = 'checkbox';
+        playRateCheckbox.style.cssText = controllerCssText;
         // 倍速选择器初始化选项
         for (let i = 1; i <= 15; i++) {
             const option = document.createElement('option');
@@ -177,16 +189,27 @@
         }
 
         playRateSelecter.addEventListener('change', () => {
-            video.playbackRate = parseInt(playRateSelecter.value);
             localStorage.setItem('play_back_rate', playRateSelecter.value);
+            if (palyRateEnable) {
+                video.playbackRate = parseInt(playRateSelecter.value);
+            }
+        });
+        playRateCheckbox.addEventListener('change', e => {
+            const value = e.target.checked;
+            localStorage.setItem('play_back_rate_enable', JSON.stringify(value));
+            if (value) {
+                video.playbackRate = parseInt(playRateSelecter.value);
+            } else {
+                video.playbackRate = 1;
+            }
         });
         videoCheckbox.addEventListener('change', e => {
-            const autoVlaue = e.target.checked;
-            localStorage.setItem('script_auto_skip', JSON.stringify(autoVlaue));
+            const autoValue = e.target.checked;
+            localStorage.setItem('script_auto_skip', JSON.stringify(autoValue));
         });
         examCheckbox.addEventListener('change', e => {
-            const autoVlaue = e.target.checked;
-            localStorage.setItem('script_auto_exam', JSON.stringify(autoVlaue));
+            const autoValue = e.target.checked;
+            localStorage.setItem('script_auto_exam', JSON.stringify(autoValue));
         });
         videoSkipButton.addEventListener('click', () => {
             video.volume = 0;
@@ -205,9 +228,10 @@
             document.querySelector('.ccH5playerBox').style.overflow = 'visible';
         }
 
-        checkboxContainer.append(examCheckboxLabel, examCheckbox, videoCheckboxLabel, videoCheckbox, selecterLabel, playRateSelecter);
+        checkboxContainer.append(examCheckboxLabel, examCheckbox, videoCheckboxLabel, videoCheckbox, selecterLabel, playRateCheckbox, playRateSelecter);
         parent.append(checkboxContainer, videoSkipButton);
 
+        /* -------------- 根据本地存储, 对各项值预处理 -------------- */
         if (localStorage.getItem('script_auto_skip') === 'true') {
             videoCheckbox.checked = true;
             videoSkipButton.dispatchEvent(new MouseEvent('click'));
@@ -217,12 +241,21 @@
         }
 
         const localRate = localStorage.getItem('play_back_rate');
-        if (localRate && parseInt(localRate) !== NaN && parseInt(localRate) >= 1 && parseInt(localRate) <= 15) {
+        const palyRateEnable = localStorage.getItem('play_back_rate_enable');
+        if (!localRate) {
+            return;
+        }
+        const rate = parseInt(localRate);
+        if (rate !== NaN && rate >= 1 && rate <= 15) {
             playRateSelecter.value = localRate;
-            video.playbackRate = parseInt(localRate);
         } else {
             playRateSelecter.value = '10';
-            video.playbackRate = 10;
+            rate = 10;
         }
-    }, 1000);
+
+        if (palyRateEnable === 'true') {
+            playRateCheckbox.checked = true;
+            video.playbackRate = rate;
+        }
+    }, 1500);
 })();

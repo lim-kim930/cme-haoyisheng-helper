@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         好医生-视频一键到底与自动答题
 // @namespace    https://dev.limkim.xyz/
-// @version      1.1.7
+// @version      1.2.0
 // @description  好医生继续医学教育(含北京市继续医学教育必修课培训)视频倍速与一键看完, 并且支持考试一键自动完成
 // @author       limkim
 // @match        *://cme.haoyisheng.com/cme/polyv.jsp*

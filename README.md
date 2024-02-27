@@ -30,4 +30,4 @@
 
 ## 使用过程中出现问题请[反馈](https://greasyfork.org/zh-CN/scripts/452555-%E5%A5%BD%E5%8C%BB%E7%94%9F-%E8%A7%86%E9%A2%91%E4%B8%80%E9%94%AE%E5%88%B0%E5%BA%95%E4%B8%8E%E8%87%AA%E5%8A%A8%E7%AD%94%E9%A2%98/feedback)，或[提交issue](https://github.com/lim-kim930/cme-haoyisheng-helper/issues)
 
-# 目前尚不清楚是否会有封号等影响，还请注意
+## 目前尚不清楚是否会有封号等影响，还请注意
